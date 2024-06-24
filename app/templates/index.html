@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects</title>
+</head>
+<body>
+    <h1>Projects</h1>
+    <nav>
+        <a href="{{ url_for('index') }}">Home</a>
+        <a href="{{ url_for('create_project') }}">Create Project</a>
+        <a href="{{ url_for('list_projects') }}">List Projects</a>
+        <a href="{{ url_for('create_resource') }}">Create Resource</a>
+        <a href="{{ url_for('list_resources') }}">List Resources</a>
+    </nav>
+    <ul>
+        {% for project in projects %}
+            <li>
+                {{ project.name }}
+                <ul>
+                    {% for pr in project.resources %}
+                        <li>
+                            {{ pr.resource.name }}: {{ pr.quantity }}
+                            <form method="post" action="{{ url_for('remove_resource_from_project') }}">
+                                <input type="hidden" name="project_resource_id" value="{{ pr.id }}">
+                                <button type="submit">Remove</button>
+                            </form>
+                            <form method="post" action="{{ url_for('update_resource_quantity') }}">
+                                <input type="hidden" name="project_resource_id" value="{{ pr.id }}">
+                                <input type="number" name="quantity" value="{{ pr.quantity }}">
+                                <button type="submit">Update</button>
+                            </form>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <form method="post" action="{{ url_for('add_resource_to_project') }}">
+                    <input type="hidden" name="project_id" value="{{ project.id }}">
+                    <input type="text" name="resource_name" placeholder="Resource Name">
+                    <input type="number" name="quantity" value="1">
+                    <button type="submit">Add Resource</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List Resources</title>
+</head>
+<body>
+    <h1>List of Resources</h1>
+    <nav>
+        <a href="{{ url_for('index') }}">Home</a>
+        <a href="{{ url_for('create_project') }}">Create Project</a>
+        <a href="{{ url_for('list_projects') }}">List Projects</a>
+        <a href="{{ url_for('create_resource') }}">Create Resource</a>
+        <a href="{{ url_for('list_resources') }}">List Resources</a>
+    </nav>
+    <ul>
+        {% for resource in resources %}
+            <li>
+                <form method="post" action="{{ url_for('list_resources') }}">
+                    <input type="hidden" name="resource_id" value="{{ resource.id }}">
+                    <input type="text" name="name" value="{{ resource.name }}" required>
+                    <input type="number" name="quantity" value="{{ resource.quantity_available }}">
+                    <button type="submit" name="update">Update</button>
+                    <button type="submit" name="delete">Delete</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

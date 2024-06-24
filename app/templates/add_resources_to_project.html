@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Resources to {{ project.name }}</title>
+</head>
+<body>
+    <h1>Add Resources to {{ project.name }}</h1>
+    <nav>
+        <a href="{{ url_for('index') }}">Home</a>
+        <a href="{{ url_for('create_project') }}">Create Project</a>
+        <a href="{{ url_for('list_projects') }}">List Projects</a>
+        <a href="{{ url_for('create_resource') }}">Create Resource</a>
+        <a href="{{ url_for('list_resources') }}">List Resources</a>
+    </nav>
+    <h2>Current Resources</h2>
+    <ul>
+        {% for pr in project.resources %}
+            <li>
+                {{ pr.resource.name }}: {{ pr.quantity_needed }}
+                <form method="post" action="{{ url_for('add_resources_to_project', project_id=project.id) }}" style="display:inline;">
+                    <input type="hidden" name="project_resource_id" value="{{ pr.id }}">
+                    <button type="submit" name="remove_resource">Remove</button>
+                </form>
+                <form method="post" action="{{ url_for('update_resource_quantity') }}" style="display:inline;">
+                    <input type="hidden" name="project_resource_id" value="{{ pr.id }}">
+                    <input type="number" name="quantity" value="{{ pr.quantity_needed }}">
+                    <button type="submit">Update</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+    <h2>Add Resource</h2>
+    <form method="post" action="{{ url_for('add_resources_to_project', project_id=project.id) }}">
+        <input type="hidden" name="project_id" value="{{ project.id }}">
+        <input type="text" name="resource_name" placeholder="Resource Name" required>
+        <input type="number" name="quantity" value="1">
+        <button type="submit" name="add_resource">Add Resource</button>
+    </form>
+</body>
+</html>

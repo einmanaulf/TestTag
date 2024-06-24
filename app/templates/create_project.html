@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Project</title>
+</head>
+<body>
+    <h1>Create Project</h1>
+    <nav>
+        <a href="{{ url_for('index') }}">Home</a>
+        <a href="{{ url_for('create_project') }}">Create Project</a>
+        <a href="{{ url_for('list_projects') }}">List Projects</a>
+        <a href="{{ url_for('create_resource') }}">Create Resource</a>
+        <a href="{{ url_for('list_resources') }}">List Resources</a>
+    </nav>
+    <form method="post" action="{{ url_for('create_project') }}">
+        <label for="name">Project Name:</label>
+        <input type="text" id="name" name="name" required>
+        {% if error %}
+            <p style="color: red;">{{ error }}</p>
+        {% endif %}
+        <button type="submit">Create</button>
+    </form>
+</body>
+</html>
